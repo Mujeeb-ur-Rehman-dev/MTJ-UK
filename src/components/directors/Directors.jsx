@@ -56,7 +56,7 @@ const Directors = ({
             </span>
 
             {directorTexts.map((text, index) => (
-              <p key={index} className="directors-text text-base">
+              <p key={index} className="directors-text text-white">
                 {text}
               </p>
             ))}

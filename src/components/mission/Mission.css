@@ -11,7 +11,8 @@
 /* Full-width black background */
 .mission-black-bg {
   width: 100%;
-  background-color: #C9EBF7;
+   background-color: rgb(83, 153, 114);
+  /* background-color: #C9EBF7; */
   position: relative;
   padding: var(--space-48) 0;
   overflow: visible;
@@ -59,7 +60,7 @@
 }
 
 .mission-text {
-  color: var(--text-muted);
+  color: var(--color-black);
   line-height: 1.7;
   opacity: 0.95;
   word-wrap: break-word;

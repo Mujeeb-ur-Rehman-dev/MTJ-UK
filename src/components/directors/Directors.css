@@ -79,7 +79,8 @@
 .directors-text-panel {
   padding: var(--space-32);
   padding-top: var(--space-72);
-  background-color: #C9EBF7;
+  background-color: rgb(83, 153, 114);
+  /* background-color: #C9EBF7; */
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   display: flex;
   flex-direction: column;
@@ -93,7 +94,7 @@
 }
 
 .directors-text {
-  color: var(--text-muted);
+  color: var(--color-black);
   line-height: 1.8;
   margin: 0;
 }

@@ -3,7 +3,6 @@ import Hero from "../components/hero/Hero";
 import { ALL_PROJECTS_DATA } from "../data/projectsData";
 import { useIntersectionObserver } from "../hooks/useIntersectionObserver";
 import BrandArea from "../components/brands/brands";
-  import QuickBlogs from "../components/quickblogs";
 import HomeInfoSection from "../components/homeInfoSection/HomeInfoSection";
 import ProjectsTestimonial from "../components/projectsTestimonial/ProjectsTestimonial";
 import { home_testimonials } from "../utils/variables";
@@ -28,12 +27,10 @@ const Mission = lazy(() =>
 );
 const Directors = lazy(() => import("../components/directors/Directors"));
 const Projects = lazy(() => import("../components/projects/Projects"));
-const Events = lazy(() => import("../components/events/Events"));
 const DonationCta = lazy(() =>
   import("../components/donationCta/DonationCta")
 );
 const Footer = lazy(() => import("../components/footer/Footer"));
-const Newsletter = lazy(() => import("../components/newsletter/Newsletter"));
 // const Partners = lazy(() => import("../components/partners/Partners"));
 
 const Home = ({ showHomeInfoSection = false }) => {
@@ -52,14 +49,14 @@ const Home = ({ showHomeInfoSection = false }) => {
   return (
     <>
           <Hero />    
-            <DonationForm
-            />
             <HeroContent />
             
       {/* Rest of components - Load when near viewport */}
       <div ref={restRef} style={{ minHeight: '200px' }}>
               <DonationFeatures />
-              <Mission/>
+              <div id="about-section">
+               <Mission />
+                </div>
                  <Directors
                               imageUrl={viceChairmanImage}
                               mobileImageUrl={viceChairmanImageMobile}
@@ -71,7 +68,9 @@ const Home = ({ showHomeInfoSection = false }) => {
                                 "His vision inspires our teams to lead with humility, fostering a culture rooted in faith, integrity, and inclusive progress.",
                               ]}
                             />
-              <Projects />
+              <div id="programs-section">
+                  <Projects />
+              </div>
               {/* <ImpactNumbers /> */}
               <Stats />
               <BrandArea />
@@ -81,9 +80,9 @@ const Home = ({ showHomeInfoSection = false }) => {
                 subtitle={home_testimonials?.subtitle}
               />
               {showHomeInfoSection && <HomeInfoSection />}
-              {/* <QuickBlogs /> 
-              <Events /> */}
-              <Newsletter />
+                <div id="contact-section">
+                   <DonationForm />
+                </div>
               <DonationCta />
                <Footer />
       </div>

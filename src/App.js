@@ -40,7 +40,7 @@ function App() {
         <DonationProvider>
           <ScrollToTop />
           {/* <StickyBar /> */}
-          {/* <Navbar /> */}
+          <Navbar />
           <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Home />} />

@@ -5,7 +5,6 @@ import change_hero_qurbani from '../../assets/img/hero/change_hero_qurbani.webp'
 import hero_qurbani_mobile from '../../assets/img/hero/hero_qurbani_mobile.webp'
 import change_hero_health from '../../assets/img/hero/change_hero_health.webp'
 import hero_health_mobile from '../../assets/img/hero/hero_health_mobile.webp'
-import logo from '../../assets/img/logos/only_logo.png'
 import './hero.css'
 
 const HERO_IMAGES = [
@@ -40,15 +39,8 @@ const Hero = () => {
   const currentImage = HERO_IMAGES[currentIndex]
 
   return (
-    <div style={{ position: 'relative' }}>
-      {/* Logo overlay — top-left corner */}
-      <div className='flex items-center logo_section' style={{ position: 'absolute', top: 0, left: 0,marginRight:'100px', zIndex: 10 }}>
-        <div className='logo'>
-          <Link to="/home">
-            <img src={logo} alt='logo' />
-          </Link>
-        </div>
-      </div>
+    <div>
+     
 
       {currentImage.link ? (
         <>

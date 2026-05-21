@@ -1,114 +1,163 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import './mobilenavbar.css'
+import { useLocation } from "react-router-dom";
+import "./mobilenavbar.css";
 
 const links = [
-                { name: "Home", path: "/home" },
-                { name: "About" },
-                { name: "Programs"},
-                // { name: "blogs ", path: "/blogs " },
-                // { name: "Media", path: "/media", submenu: [{ name: "Downloads", path: "/media/downloads" }] },
-                { name: "Volunteer" },
-                { name: "Careers" },
-                { name: "Contact",},
-                // { name: "Ramadan 2026", path: "", submenu:[{name:'Zakat', path:'/projects/ramzan-zakat'},{name:'Zakat Calculator', path:'/zakat-calculator'}, {name:'Fitrana', path:'/fitrana'}, {name:'Laylatul Qadr', path:'/laylat-ul-qadar'}, {name:'Gaza Relief', path:'/gaza'}] },
-                { name: "Qurbani 2026 ",},
-                //  { name: "Qurbani 2026 ", path: "", submenu:[{name:'Qurbani', path:'/projects/qurbani'}] },
-
+  { name: "Home", section: "home" },
+  { name: "About", section: "about-section" },
+  { name: "Programs", section: "programs-section" },
+  { name: "Contact", section: "contact-section" },
 ];
 
-
 const Mobilenavbar = () => {
-     const [visible, setVisible] = useState(false);
-     const [activeLink, setActiveLink] = useState("Home");
-     const [expandedSubmenu, setExpandedSubmenu] = useState(null);
-     const location = useLocation();
+  const [visible, setVisible] = useState(false);
+  const [activeLink, setActiveLink] = useState("Home");
+  const [expandedSubmenu, setExpandedSubmenu] = useState(null);
 
-     useEffect(() => {
-       const currentPath = location.pathname.trim();
-       const matchedItem = links.find(item => {
-         const itemPath = item.path.trim();
-         const isHome =
-           (currentPath === '/' || currentPath === '/home') &&
-           item.name === 'Home';
-         const isExactMatch = currentPath === itemPath;
-         const isProjectSubRoute =
-           itemPath === '/projects' &&
-           currentPath.startsWith('/projects/');
-         return isHome || isExactMatch || isProjectSubRoute;
-       });
-       setActiveLink(matchedItem ? matchedItem.name : "Home");
-     }, [location.pathname]);
+  const location = useLocation();
 
-     const handleLinkClick = (linkName, path) => {
-       setActiveLink(linkName);
-       const burger = document.querySelector(".hamburger.open");
-       if (burger) burger.click();
-     };
+  useEffect(() => {
+    if (
+      location.pathname === "/" ||
+      location.pathname === "/home"
+    ) {
+      setActiveLink("Home");
+    }
+  }, [location.pathname]);
 
-     const handleSubmenuToggle = (itemName) => {
-       setExpandedSubmenu((prev) => (prev === itemName ? null : itemName));
-     };
+  // Smooth Scroll Function
+  const scrollToSection = (sectionId) => {
+    // Home Scroll
+    if (sectionId === "home") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+
+      return;
+    }
+
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  // Menu Item Click
+  const handleLinkClick = (item) => {
+    setActiveLink(item.name);
+
+    // Close Mobile Menu First
+    const burger = document.querySelector(".hamburger.open");
+
+    if (burger) {
+      burger.click();
+    }
+
+    // Delay for menu close animation
+    setTimeout(() => {
+      scrollToSection(item.section);
+    }, 300);
+  };
+
+  const handleSubmenuToggle = (itemName) => {
+    setExpandedSubmenu((prev) =>
+      prev === itemName ? null : itemName
+    );
+  };
 
   useEffect(() => {
     const onToggle = (e) => {
-      if (e && e.detail && typeof e.detail.isOpen === "boolean") {
+      if (
+        e &&
+        e.detail &&
+        typeof e.detail.isOpen === "boolean"
+      ) {
         setVisible(e.detail.isOpen);
-        if (!e.detail.isOpen) setExpandedSubmenu(null);
+
+        if (!e.detail.isOpen) {
+          setExpandedSubmenu(null);
+        }
       }
     };
 
-    window.addEventListener("mobile-menu-toggle", onToggle);
-    return () => window.removeEventListener("mobile-menu-toggle", onToggle);
+    window.addEventListener(
+      "mobile-menu-toggle",
+      onToggle
+    );
+
+    return () =>
+      window.removeEventListener(
+        "mobile-menu-toggle",
+        onToggle
+      );
   }, []);
 
   if (!visible) return null;
 
   return (
-    <div className='mbl lg:d-none md:d-block sm:d-block'>
-       <ul className='text-white'>
+    <div className="mbl lg:d-none md:d-block sm:d-block">
+      <ul className="text-white">
         {links.map((item) => (
           <li key={item.name}>
             {item.submenu ? (
               <>
                 <button
                   type="button"
-                  className={`mbl-nav-trigger ${activeLink === item.name ? "active" : ""}`}
-                  onClick={() => handleSubmenuToggle(item.name)}
-                  aria-expanded={expandedSubmenu === item.name}
+                  className={`mbl-nav-trigger ${
+                    activeLink === item.name ? "active" : ""
+                  }`}
+                  onClick={() =>
+                    handleSubmenuToggle(item.name)
+                  }
                 >
                   {item.name}
                 </button>
+
                 {expandedSubmenu === item.name && (
                   <ul className="mbl-submenu">
                     {item.submenu.map((subItem) => (
                       <li key={subItem.name}>
-                        <Link
-                          to={subItem.path}
-                          className={activeLink === subItem.name ? "active" : ""}
-                          onClick={() => handleLinkClick(subItem.name)}
+                        <button
+                          type="button"
+                          className={
+                            activeLink === subItem.name
+                              ? "active"
+                              : ""
+                          }
+                          onClick={() =>
+                            handleLinkClick(subItem)
+                          }
                         >
                           {subItem.name}
-                        </Link>
+                        </button>
                       </li>
                     ))}
                   </ul>
                 )}
               </>
             ) : (
-              <Link
-                to={item.path}
-                className={activeLink === item.name ? "active" : ""}
-                onClick={() => handleLinkClick(item.name)}
+              <button
+                type="button"
+                className={
+                  activeLink === item.name
+                    ? "active"
+                    : ""
+                }
+                onClick={() => handleLinkClick(item)}
               >
                 {item.name}
-              </Link>
+              </button>
             )}
           </li>
         ))}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Mobilenavbar
+export default Mobilenavbar;

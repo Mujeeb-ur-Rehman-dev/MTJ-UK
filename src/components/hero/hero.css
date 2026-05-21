@@ -20,7 +20,7 @@
 
 .hero-nav-container {
   position: absolute;
-  top: 33%;
+  top: 40%;
   left: 0;
   right: 0;
   transform: translateY(-50%);
@@ -39,7 +39,7 @@
 }
 
 .banner_img--mobile {
-  /* margin-top: 150px; */
+  margin-top: 50px;
 }
 
 @media (max-width: 768px) {

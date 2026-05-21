@@ -9,16 +9,9 @@ import logo from '../../assets/img/logos/only_logo.png'
 // Navigation items mapping
 const navItems = [
   { name: "Home", path: "/home" },
-  { name: "About" },
-  { name: "Programs", },
-  // { name: "Blogs", path: "/blogs " },
-  { name: "Volunteer", },
-  { name: "Careers",  },
-  { name: "Contact", },
-  // { name: "Ramadan 2026", path: "", submenu:[{name:'Zakat', path:'/projects/ramzan-zakat'},{name:'Zakat Calculator', path:'/zakat-calculator'}, {name:'Fitrana', path:'/fitrana'}, {name:'Laylatul Qadr', path:'/laylat-ul-qadar'}, {name:'Gaza Relief', path:'/gaza'}] },
-  // { name: "Media", path: "/media", submenu: [{ name: "Downloads", path: "/media/downloads" }] },
-  { name: "Qurbani 2026 "},
-  // { name: "Qurbani 2026 ", path: "", submenu:[{name:'Qurbani', path:'/projects/qurbani'}] },
+  { name: "About", path: "/home#about-section" },
+  { name: "Programs", path: "/home#programs-section" },
+  { name: "Contact", path: "/home#contact-section" },
 ];
 
 const Navbar = () => {
@@ -56,18 +49,53 @@ const Navbar = () => {
      }
    }, [location.pathname]);
 
-  const handleClick = (linkName, path) => {
-    // Scroll to top on current page first
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    setActiveLink(linkName);
-    
-    // Wait for scroll to complete, then navigate
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        navigate(path);
-      });
-    });
-  };
+ const handleClick = (linkName, path) => {
+  setActiveLink(linkName);
+
+  // Home Page Sections
+  if (
+    path === "/home#about-section" ||
+    path === "/home#programs-section" ||
+    path === "/home#contact-section"
+  ) {
+    navigate("/home");
+
+    setTimeout(() => {
+      let sectionId = "";
+
+      if (path.includes("about-section")) {
+        sectionId = "about-section";
+      }
+
+      if (path.includes("programs-section")) {
+        sectionId = "programs-section";
+      }
+
+      if (path.includes("contact-section")) {
+        sectionId = "contact-section";
+      }
+
+      const section = document.getElementById(sectionId);
+
+      if (section) {
+        section.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+    }, 300);
+
+    return;
+  }
+
+  // Default Home Navigation
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+
+  navigate(path);
+};
 
   const scrollToDonationForm = () => {
     // Try multiple selectors to find the donation form
@@ -145,41 +173,11 @@ const Navbar = () => {
               </ul>
             </div>
 
-            {/* button section - desktop */}
-            <div className='nav-btn-group d-none md:d-flex'>
-              <button 
-                className='btn btn-zakat-nav'
-                >
-                <span className="btn-donate-content">
-                  <span>Give Your Zakat</span>
-                </span>
-              </button>
-              <button 
-                className='btn btn--alert btn-donate-animated' 
-              >
-                <span className="btn-donate-content">
-                  <FcDonate className="btn-donate-icon" size={20} />
-                  <span>Donate Now</span>
-                </span>
-              </button>
-            </div>
             <div className='md:d-none'>
               <Hamburger/>
             </div>
         </div>
-        {/* Row 2 - mobile only buttons */}
-        <div className='nav-row-2 md:d-none'>
-          <button 
-            className='btn btn-zakat-nav nav-row-2__btn' 
-          >
-            Give Your Zakat
-          </button>
-          <button 
-            className='btn btn--alert btn-donate-animated nav-row-2__btn'  
-          >
-            Donate Now
-          </button>
-        </div>
+       
       </div>
            <div>
             <Mobilenavbar/>
